@@ -27,9 +27,6 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
         private const val REQUEST_CODE_PERMISSIONS = 10
     }
 
-    var constant = Constant()
-
-
     // This is an array of all the permission specified in the manifest
     private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
 
@@ -40,12 +37,9 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
             .setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_camera_x)
 
-
-        textureViewCamera = findViewById(R.id.texture_view_camera)
-
         // Request camera permissions
         if (allPermissionsGranted()) {
-            textureViewCamera.post {
+            texture_view_camera.post {
                 startCamera(this)
             }
         } else {
@@ -55,14 +49,10 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
         }
 
         // Every time the provided texture view changes, recompute layout
-        textureViewCamera.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+        texture_view_camera.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
             updateTransform()
         }
-
     }
-
-    private lateinit var textureViewCamera: TextureView
-
 
     /**
      * Process result from permission request dialog box, has the request
@@ -73,9 +63,9 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
     ) {
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted()) {
-                textureViewCamera.post { startCamera(this) }
+                texture_view_camera.post { startCamera(this) }
             } else {
-                Toast.makeText(this, constant.PERMISSION_NOT_GRANDED_BY_USER, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, Constant.PERMISSION_NOT_GRANDED_BY_USER, Toast.LENGTH_SHORT).show()
                 finish()
             }
         }
@@ -101,7 +91,7 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
         // Create configuration object for the viewfinder use case
         val previewConfig = PreviewConfig.Builder().apply {
             setTargetAspectRatio(Rational(1, 1))
-            setTargetResolution(Size(640, 640))
+            setTargetResolution(Size(R.dimen.six_hundred, R.dimen.six_hundred))
 
         }.build()
 
@@ -113,11 +103,11 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
             2
 
             // To update the SurfaceTexture, we have to remove it and re-add it
-            val parent = textureViewCamera.parent as ViewGroup
-            parent.removeView(textureViewCamera)
-            parent.addView(textureViewCamera, 0)
+            val parent = texture_view_camera.parent as ViewGroup
+            parent.removeView(texture_view_camera)
+            parent.addView(texture_view_camera, 0)
 
-            textureViewCamera.surfaceTexture = it.surfaceTexture
+            texture_view_camera.surfaceTexture = it.surfaceTexture
             updateTransform()
         }
         // Add this before CameraX.bindToLifecycle
@@ -138,7 +128,7 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
         capture_button.setOnClickListener {
             val file = File(
                 externalMediaDirs.first(),
-                "${System.currentTimeMillis()}" + constant.JPG
+                "${System.currentTimeMillis()}" + Constant.JPG
             )
             imageCapture.takePicture(file,
                 object : ImageCapture.OnImageSavedListener {
@@ -146,22 +136,18 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
                         error: ImageCapture.UseCaseError,
                         message: String, exc: Throwable?
                     ) {
-                        val msg = constant.PHOTO_CAPTURE_FAILED + message
+                        val msg = Constant.PHOTO_CAPTURE_FAILED + message
                         Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
                         exc?.printStackTrace()
                     }
 
                     override fun onImageSaved(file: File) {
-                        var imageAbsolutePath: String = file.absolutePath
-                        val broadcastImagePathIntent = Intent(constant.ACTION_IMAGE_PATH)
-                        broadcastImagePathIntent.putExtra(constant.IMAGE_ABSOLUTE_PATH, imageAbsolutePath)
+                        val broadcastImagePathIntent = Intent(Constant.ACTION_IMAGE_PATH)
+                        broadcastImagePathIntent.putExtra(Constant.IMAGE_ABSOLUTE_PATH, file.absolutePath)
                         context.sendBroadcast(broadcastImagePathIntent)
-
-
                     }
                 })
         }
-
 
         // Bind use cases to lifecycle
         // If Android Studio complains about "this" being not a LifecycleOwner
@@ -170,27 +156,25 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
         CameraX.bindToLifecycle(this, preview, imageCapture)
     }
 
-    private fun updateTransform() {
+    private fun updateTransform(): Int {
         val matrix = Matrix()
 
         // Compute the center of the view finder
-        val centerX = textureViewCamera.width / 2f
-        val centerY = textureViewCamera.height / 2f
+        val centerX = texture_view_camera.width / 2f
+        val centerY = texture_view_camera.height / 2f
 
         // Correct preview output to account for display rotation
-        val rotationDegrees = when (textureViewCamera.display.rotation) {
-            Surface.ROTATION_0 -> 0
+        val rotationDegrees = when (texture_view_camera.display.rotation) {
+
             Surface.ROTATION_90 -> 90
             Surface.ROTATION_180 -> 180
             Surface.ROTATION_270 -> 270
-            else -> return
+            else -> return 0
         }
         matrix.postRotate(-rotationDegrees.toFloat(), centerX, centerY)
 
-
         // Finally, apply transformations to our TextureView
-        textureViewCamera.setTransform(matrix)
+        texture_view_camera.setTransform(matrix)
+        return 0
     }
-
-
 }

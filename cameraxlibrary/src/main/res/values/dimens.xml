@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="zero_dp">0dp</dimen>
+    <dimen name="seventy_five_dp">75dp</dimen>
+    <dimen name="twenty_four_dp">24dp</dimen>
+    <dimen name="six_hundred">600px</dimen>
+    <item name="vertical_bias" type="dimen" format="float">1.0</item>
+    <item name="horizontal_bias" type="dimen" format="float">0.0</item>
+</resources>

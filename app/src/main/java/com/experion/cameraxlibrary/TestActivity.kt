@@ -5,12 +5,11 @@ import android.os.Bundle
 import android.widget.Toast
 
 //implement SaveImagePathInterface to get the image path
-class TestActivity : AppCompatActivity(),SavedImagePathInterface {
+class TestActivity : AppCompatActivity(), ImagePath {
 
-
-    override fun imageAbsolutePath(imagePath: String) {
+    override fun onCapture(imagePath: String) {
         //get the image uri here
-        Toast.makeText(this,imagePath,Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, imagePath, Toast.LENGTH_SHORT).show()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,7 +17,7 @@ class TestActivity : AppCompatActivity(),SavedImagePathInterface {
         setContentView(R.layout.activity_main2)
 
         //create an object of CameraXHelperClass by passing context
-        val helperClass = CameraXHelperClass(this,this)
+        val helperClass = CameraXHelperClass(this, this)
         //call the function openCamera to get the job done
         helperClass.openCamera()
 
