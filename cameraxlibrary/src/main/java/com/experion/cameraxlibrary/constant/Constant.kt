@@ -8,6 +8,7 @@ object Constant{
     val PHOTO_CAPTURE_FAILED: String="Photo capture failed:"
     val JPG: String=".jpg"
     val PERMISSION_NOT_GRANDED_BY_USER:String="Permissions not granted by the user."
+    val CANCELLED:String="cancelled"
 
 }
 

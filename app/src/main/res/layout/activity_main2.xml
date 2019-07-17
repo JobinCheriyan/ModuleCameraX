@@ -7,4 +7,18 @@
         android:layout_height="match_parent"
         tools:context=".TestActivity">
 
+    <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_open_camera"
+            android:text="open camera"
+            android:background="#4CAF50"
+            android:textColor="#fff"
+            app:layout_constraintBottom_toBottomOf="@+id/image_view_demo"/>
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/image_view_demo"
+
+           />
 </androidx.constraintlayout.widget.ConstraintLayout>

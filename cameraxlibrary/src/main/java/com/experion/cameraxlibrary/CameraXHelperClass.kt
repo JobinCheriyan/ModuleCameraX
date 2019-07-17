@@ -18,12 +18,18 @@ class CameraXHelperClass(context: Context, imagePath: ImagePath) {
         context.registerReceiver(broadcastReceiver, intentFilter)
     }
 
+    fun unRegisterReceiver() {
+        context.unregisterReceiver(broadcastReceiver)
+
+    }
+
     val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
 
             if (intent!!.action.equals(Constant.ACTION_IMAGE_PATH)) {
                 val imageAbsolutePath = intent.getStringExtra(Constant.IMAGE_ABSOLUTE_PATH)
                 imagePath.onCapture(imageAbsolutePath)
+                unRegisterReceiver()
             }
         }
     }
