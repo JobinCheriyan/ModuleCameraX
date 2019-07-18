@@ -1,5 +1,5 @@
 package com.experion.cameraxlibrary
 
-interface ImagePath {
+interface OnImageCaptureListener {
     fun onCapture(imagePath: String)
 }

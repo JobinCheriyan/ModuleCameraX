@@ -55,16 +55,13 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
                 Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(galleryIntent, REQUEST_CODE_GALLERY)
         }
-
     }
 
     override fun onResume() {
         super.onResume()
         CameraX.unbindAll()
         openCamera()
-
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         // Check which request we're responding to
@@ -108,7 +105,6 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
 
         return galleryImageUrls as ArrayList<String>
     }
-
 
     /**
      * Process result from permission request dialog box, has the request
@@ -207,7 +203,6 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
                         val broadcastImagePathIntent = Intent(Constant.ACTION_IMAGE_PATH)
                         broadcastImagePathIntent.putExtra(Constant.IMAGE_ABSOLUTE_PATH, file.absolutePath)
                         context.sendBroadcast(broadcastImagePathIntent)
-
                         closeActivity()
 
                     }
@@ -225,7 +220,6 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
 
     }
 
-
     private fun updateTransform(): Int {
         val matrix = Matrix()
 
@@ -236,10 +230,10 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
         // Correct preview output to account for display rotation
         val rotationDegrees = when (texture_view_camera.display.rotation) {
 
-            Surface.ROTATION_90 -> 180
+            Surface.ROTATION_90 -> 90
             Surface.ROTATION_180 -> 180
-            Surface.ROTATION_270 -> 180
-            else -> return 90
+            Surface.ROTATION_270 -> 270
+            else -> return 0
         }
         matrix.postRotate(-rotationDegrees.toFloat(), centerX, centerY)
 
@@ -254,9 +248,9 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
     }
 
     private fun slideUp(view: View) {
-        view.setVisibility(View.VISIBLE)
+        view.visibility = View.VISIBLE
         val animate: TranslateAnimation = TranslateAnimation(0f, 0f, view.getHeight().toFloat() * 3, 0f)
-        animate.setDuration(500);
+        animate.duration = 500;
         animate.setFillAfter(false);
         view.startAnimation(animate);
     }
@@ -298,7 +292,7 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
         recycler_view_gallery.adapter = galleryImageUrls?.let { GalleryImageAdapter(it, this) }
 
 
-        image_button_slide.setImageResource(R.drawable.ic_arrow_drop_down_black_24dp);
+        image_button_slide.setImageResource(R.drawable.ic_arrow_drop_down_black_24dp)
         image_button_slide.setOnClickListener {
             if (galleryUp) {
                 slideDown(recycler_view_gallery);

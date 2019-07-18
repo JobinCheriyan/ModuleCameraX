@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.activity_main2.*
 import java.io.File
 
 //implement SaveImagePathInterface to get the image path
-class TestActivity : AppCompatActivity(), ImagePath {
+class TestActivity : AppCompatActivity(), OnImageCaptureListener {
 
     override fun onCapture(imagePath: String) {
         //get the image uri here

@@ -6,9 +6,9 @@ import android.content.Intent
 import android.content.IntentFilter
 import com.experion.cameraxlibrary.constant.Constant
 
-class CameraXHelperClass(context: Context, imagePath: ImagePath) {
+class CameraXHelperClass(context: Context, onImageCaptureListenar: OnImageCaptureListener) {
 
-    private val imagePath = imagePath
+    private val imagePath = onImageCaptureListenar
     private val context = context
 
     fun openCamera() {
@@ -19,6 +19,7 @@ class CameraXHelperClass(context: Context, imagePath: ImagePath) {
     }
 
     fun unRegisterReceiver() {
+
         context.unregisterReceiver(broadcastReceiver)
 
     }
@@ -28,7 +29,7 @@ class CameraXHelperClass(context: Context, imagePath: ImagePath) {
 
             if (intent!!.action.equals(Constant.ACTION_IMAGE_PATH)) {
                 val imageAbsolutePath = intent.getStringExtra(Constant.IMAGE_ABSOLUTE_PATH)
-                imagePath.onCapture(imageAbsolutePath)
+                onImageCaptureListenar.onCapture(imageAbsolutePath)
                 unRegisterReceiver()
             }
         }
