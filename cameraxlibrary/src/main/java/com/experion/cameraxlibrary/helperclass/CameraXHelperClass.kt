@@ -1,9 +1,10 @@
-package com.experion.cameraxlibrary
+package com.experion.cameraxlibrary.helperclass
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import com.experion.cameraxlibrary.activity.CameraXActivity
 import com.experion.cameraxlibrary.constant.Constant
 
 class CameraXHelperClass(context: Context, onImageCaptureListenar: OnImageCaptureListener) {
@@ -19,9 +20,7 @@ class CameraXHelperClass(context: Context, onImageCaptureListenar: OnImageCaptur
     }
 
     fun unRegisterReceiver() {
-
         context.unregisterReceiver(broadcastReceiver)
-
     }
 
     val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {

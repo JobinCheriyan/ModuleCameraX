@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.experion.cameraxlibrary.helperclass.CameraXHelperClass
+import com.experion.cameraxlibrary.helperclass.OnImageCaptureListener
 import kotlinx.android.synthetic.main.activity_main2.*
 import java.io.File
 

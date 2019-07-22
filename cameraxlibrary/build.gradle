@@ -1,6 +1,8 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+
 
 android {
     compileSdkVersion 28
@@ -15,6 +17,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
+
 
     buildTypes {
         release {
@@ -51,3 +54,31 @@ repositories {
     google()
 
 }
+ext {
+    bintrayRepo = 'CameraXLibrary' //the maven repo name (created on bintray)
+    bintrayName = 'cameraxlibrary' //the name you want to give at your project on bintray
+    orgName = 'jobincheriyan' //your user name
+
+    publishedGroupId = 'com.experion' //aaaa : the librairy group
+    artifact = 'cameraxlibrary' //BBBB : the library name
+    libraryVersion = "1.0.0" //the librairy version
+
+    //the library will be : aaaa:BBBB:version
+
+    libraryName = 'CameraXLibrary'
+    libraryDescription = 'simple camerax library'
+
+    siteUrl = 'https://github.com/JobinCheriyan/ModuleCameraX'
+    gitUrl = 'https://github.com/JobinCheriyan/ModuleCameraX.git'
+
+    developerId = 'jobincheriyan'
+    developerName = 'Jobin Cheriyan'
+    developerEmail = 'jobincheriyankunnil@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+apply from: rootProject.file('gradle/install-v1.gradle')
+apply from: rootProject.file('gradle/bintray-android-v1.gradle')

@@ -1,4 +1,4 @@
-package com.experion.cameraxlibrary
+package com.experion.cameraxlibrary.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import android.content.Context
@@ -11,6 +11,7 @@ import com.experion.cameraxlibrary.constant.Constant
 import kotlinx.android.synthetic.main.image_list.view.*
 import android.app.Activity
 import com.bumptech.glide.Glide
+import com.experion.cameraxlibrary.R
 import java.io.File
 
 
@@ -49,10 +50,5 @@ class GalleryImageAdapter(val items: ArrayList<String>, val context: Context) :
         val galleryImage = view.image_view_gallery
         val linearLayout = view.linear_layout_container
 
-
-// Holds the TextView that will add each animal to
-
     }
-
-
 }

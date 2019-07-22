@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/container_layout"
-        tools:context=".CameraXActivity">
+        tools:context=".activity.CameraXActivity">
     <TextureView
             android:id="@+id/texture_view_camera"
             android:layout_width="@dimen/zero_dp"
@@ -29,37 +29,37 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
     <ImageButton
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/fourty_dp"
+            android:layout_height="@dimen/fourty_dp"
             android:id="@+id/image_button_gallery"
             android:src="@drawable/ic_photo_library_black_24dp"
-            android:layout_marginBottom="35dp"
+            android:layout_marginBottom="@dimen/thirty_five_dp"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/eight_dp"
             android:background="@null"
             app:layout_constraintEnd_toStartOf="@+id/capture_button"
-            android:layout_marginEnd="8dp"/>
+            android:layout_marginEnd="@dimen/eight_dp"/>
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_gallery"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="@dimen/eight_dp"
             app:layout_constraintBottom_toTopOf="@+id/capture_button">
 
 
     </androidx.recyclerview.widget.RecyclerView>
     <ImageButton
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/fourty_dp"
+            android:layout_height="@dimen/fourty_dp"
             android:scaleType="centerCrop"
             android:id="@+id/image_button_slide"
             app:layout_constraintBottom_toTopOf="@+id/recycler_view_gallery"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/eight_dp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="@dimen/eight_dp"
             android:background="@null"
             android:src="@drawable/ic_arrow_drop_up_black_24dp"/>
 

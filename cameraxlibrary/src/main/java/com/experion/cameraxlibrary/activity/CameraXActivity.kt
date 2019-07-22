@@ -1,4 +1,4 @@
-package com.experion.cameraxlibrary
+package com.experion.cameraxlibrary.activity
 
 import android.Manifest
 import android.app.Activity
@@ -19,14 +19,12 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.experion.cameraxlibrary.adapter.GalleryImageAdapter
+import com.experion.cameraxlibrary.R
 import com.experion.cameraxlibrary.constant.Constant
 import kotlinx.android.synthetic.main.activity_camera_x.*
 import org.jetbrains.anko.toast
 import java.io.File
-import android.view.MotionEvent
-import android.view.View.OnTouchListener
-
-
 
 class CameraXActivity : AppCompatActivity(), LifecycleOwner {
     var galleryImageUrls: ArrayList<String>? = null
@@ -44,7 +42,7 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
         super.onCreate(savedInstanceState)
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow()
+        this.window
             .setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_camera_x)
 
@@ -53,7 +51,9 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
         image_button_gallery.setOnClickListener {
             val galleryIntent =
                 Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(galleryIntent, REQUEST_CODE_GALLERY)
+            startActivityForResult(galleryIntent,
+                REQUEST_CODE_GALLERY
+            )
         }
     }
 
@@ -72,7 +72,7 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
 
                 val selectedImage = data?.getData()
                 val filePath = arrayOf<String>(MediaStore.Images.Media.DATA)
-                val cursor = getContentResolver().query(selectedImage, filePath, null, null, null)
+                val cursor = contentResolver.query(selectedImage, filePath, null, null, null)
                 cursor.moveToFirst()
                 val columnIndex = cursor.getColumnIndex(filePath[0])
                 val picturePath = cursor.getString(columnIndex)
@@ -80,7 +80,7 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
                 val broadcastImagePathIntent = Intent(Constant.ACTION_IMAGE_PATH)
                 broadcastImagePathIntent.putExtra(Constant.IMAGE_ABSOLUTE_PATH, picturePath)
                 sendBroadcast(broadcastImagePathIntent)
-                closeActivity()
+                finish()
             }
         }
     }
@@ -147,7 +147,10 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
         // Create configuration object for the viewfinder use case
         val previewConfig = PreviewConfig.Builder().apply {
             setTargetAspectRatio(Rational(1, 1))
-            setTargetResolution(Size(R.dimen.six_hundred, R.dimen.six_hundred))
+            setTargetResolution(Size(
+                R.dimen.six_hundred,
+                R.dimen.six_hundred
+            ))
 
         }.build()
         // Build the viewfinder use case
@@ -203,7 +206,7 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
                         val broadcastImagePathIntent = Intent(Constant.ACTION_IMAGE_PATH)
                         broadcastImagePathIntent.putExtra(Constant.IMAGE_ABSOLUTE_PATH, file.absolutePath)
                         context.sendBroadcast(broadcastImagePathIntent)
-                        closeActivity()
+                        finish()
 
                     }
                 })
@@ -213,11 +216,7 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
         // If Android Studio complains about "this" being not a LifecycleOwner
         // try rebuilding the project or updating the appcompat dependency to
         // version 1.1.0 or higher.
-
-
         CameraX.bindToLifecycle(this, preview, imageCapture)
-
-
     }
 
     private fun updateTransform(): Int {
@@ -242,24 +241,19 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
         return 0
     }
 
-    private fun closeActivity() {
-
-        finish()
-    }
-
     private fun slideUp(view: View) {
         view.visibility = View.VISIBLE
-        val animate: TranslateAnimation = TranslateAnimation(0f, 0f, view.getHeight().toFloat() * 3, 0f)
-        animate.duration = 500;
-        animate.setFillAfter(false);
+        val animate = TranslateAnimation(0f, 0f, view.getHeight().toFloat() * 3, 0f)
+        animate.duration = 500
+        animate.fillAfter = false;
         view.startAnimation(animate);
     }
 
     private fun slideDown(view: View) {
-        view.setVisibility(View.GONE)
-        val animate: TranslateAnimation = TranslateAnimation(0f, 0f, 0f, view.getHeight().toFloat() * 3)
-        animate.setDuration(500);
-        animate.setFillAfter(false);
+        view.visibility = View.GONE
+        val animate = TranslateAnimation(0f, 0f, 0f, view.getHeight().toFloat() * 3)
+        animate.duration = 500;
+        animate.fillAfter = false;
         view.startAnimation(animate);
 
 
@@ -275,7 +269,8 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
             }
         } else {
             ActivityCompat.requestPermissions(
-                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
+                this, REQUIRED_PERMISSIONS,
+                REQUEST_CODE_PERMISSIONS
             )
         }
 
@@ -288,9 +283,12 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
     private fun SettingImageAdapter() {
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         recycler_view_gallery.setLayoutManager(layoutManager);
-
-        recycler_view_gallery.adapter = galleryImageUrls?.let { GalleryImageAdapter(it, this) }
-
+        recycler_view_gallery.adapter = galleryImageUrls?.let {
+            GalleryImageAdapter(
+                it,
+                this
+            )
+        }
 
         image_button_slide.setImageResource(R.drawable.ic_arrow_drop_down_black_24dp)
         image_button_slide.setOnClickListener {
@@ -304,6 +302,4 @@ class CameraXActivity : AppCompatActivity(), LifecycleOwner {
             galleryUp = !galleryUp;
         }
     }
-
-
 }

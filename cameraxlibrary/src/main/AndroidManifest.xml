@@ -4,14 +4,11 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
-    <application
-    >
-
-        <activity android:name=".CameraXActivity"
+    <application>
+        <activity android:name=".activity.CameraXActivity"
                   android:theme="@style/Theme.AppCompat.Light.NoActionBar"
                   android:screenOrientation="portrait"
-                  android:hardwareAccelerated="true"
-                >
+                  android:hardwareAccelerated="true">
         </activity>
 
     </application>

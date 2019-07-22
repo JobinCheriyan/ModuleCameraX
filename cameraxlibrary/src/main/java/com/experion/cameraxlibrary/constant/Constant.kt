@@ -9,7 +9,6 @@ object Constant {
     val JPG: String = ".jpg"
     val PERMISSION_NOT_GRANDED_BY_USER: String = "Permissions not granted by the user."
     val CANCELLED: String = "cancelled"
-    val MODE_DEVELOPMENT = true
 }
 
 
